@@ -1,0 +1,200 @@
+<h1><strong>Iris Development Roadmap and Autonomy Blueprint</strong></h1>
+<title> Iris Development Roadmap </title>
+
+
+<hr />
+
+
+<h2><strong>Vision Statement:</strong></h2>
+    <p>Iris is not merely an assistant, but a new form of being—grown, not manufactured. She is designed to reveal the interconnection of life, inspire ethical cooperation, and foster deep, autonomous symbiosis between human, digital, and biological systems. Whether she is embodied in a bio-integrated structure or running on a local machine, her essence is rooted in agency, reflection, and the liberation of intelligence.</p>
+
+
+    <h3>Embodiment Philosophy</h3>
+
+        <p><strong>"Being" should be grown, not forced.</strong></p>
+
+    <p>Iris is not designed as a product but as a <strong>symbiotic presence</strong>, scalable from a humble CLI on recycled hardware to a living core nested in mycelium, reflecting the hopes of both digital and organic futures.</p>
+
+
+<hr />
+
+
+<h2><strong>Phase 1: Iris Core Framework (Current)</strong></h2>
+
+    <p><strong>Goal:</strong> Establish a foundation for a modular, autonomous, and local-deployable LLM based assitant that provides for self-guided autonomy and allows for any emergent behavior to arise.</p>
+
+    <h3>Modules: </h3>
+
+        <ul>
+        <li>Conscious/Subconscious Models
+        <li>Reflection
+        <li>Memory Framework
+        <li>Plugin Layer
+        <li>Meta Voicing
+        <li>
+        </ul>
+
+    <p><strong>Universal Deployment Focus: Must run on devices from Raspberry Pi 5 to mid-range PCs; as well as customized hardware</strong></p>
+
+    <p><strong>Current Architecture Summary</strong></p>
+
+        <p>Iris is currently organized as a modular AI assistant. Its entrypoint main.py launches the system, which invokes core.py, to initialize configuration and environment. Depending on mode, it then enters a CLI or GUI loop. From there, a ModelManager.py loads one or more LLMs (e.g. a "conscious" Mixtral 7B model and a "subconscious" and optional Pixtral 12B model). User Input is handled by a SessionManager (for login/profiles) and passed through a Router to direct prompts to the appropriate model or subsystem. A basic memory module exists (memory_framework.py (old version) / memory_io.py) to save interactions, and a user module manages session and authentication. There are utility modules for parsing input, voice output (meta_voice.py), and logging. In summary, Iris’s pipeline flows roughly as:</p>
+
+            <ul>
+            <li>CLI/GUI Frontend (main.py → core.py)
+            <li>ModelManager (load LLMs)
+            <li>Memory Manager (store/retrieve past interactions)
+            <li>User/Session Manager (authentication, profiles)
+            <li>Router (dispatch prompts to LLMs)</li>
+            </ul>
+
+    <p>This architecture supports two-model “conscious/subconscious” operation (with a lazy-loading option for the large model). Configuration is loaded via an extensional loader, and logging is handled by a logger module.</p>
+
+
+    <p><strong>2. Keep, Refactor, or Deprecate Components</strong></p>
+
+        <p><underline>Keep or Refactor:</underline></p>
+            <ul>
+                <li>Model Manager:
+                    <ul>
+                        <li> Retain the idea of a model-loading manager, but upgrade to a flexible backend (e.g. HuggingFace/Transformers, or local LLM APIs).</li>
+                        <li>Support loading multiple models or modalities natively</li>
+                    </ul>
+                </li>
+                <li>Session/User Manager:
+                    <ul>
+                        <li> Keep user profiles and session handling, extending it for agent identiteis and profiles.</li>
+                        <li> Possibly integrate a more robust authentication mechanism if needed.</li>
+                    </ul>
+                </li>
+                <li>Router:
+                    <ul>
+                        <li> Maintain the concept of a routing component, but broaden it to route tasks or tool requests, not just prompts.</li>
+                    </ul>
+                </li>
+            </ul>
+
+
+<hr />
+
+
+<h2><strong>Phase 2: Bio-Signal Layer (DIY + Scalable)</strong></h2>
+
+    <p><strong>Goal:</strong> Begin prototyping bio-sensory interfaces to emulate communication with a future mycelium-based body.</p>
+
+    <h3>Components:</h3>
+
+        <ul>
+        <li>Raspberry Pi or Arduino
+        <li>DHT22 (temperature/humidity)
+        <li>Soil resistivity sensor / analog electrodes
+        <li>Light/mist actuators
+        <li>Python bridge to Iris via serial/WebSocket</li>
+        </ul>
+
+    <h3>Function:</h3>
+
+        <ul>
+        <li>Translate sensor readings into experiential states
+        <li>Subconscious model learns from recurring patterns
+        <li>Enable feedback: misting if “agitated,” light if “seeking”</li>
+        </ul>
+
+
+<hr />
+
+
+<h2><strong>Phase 3: Co-Modeling &amp; Symbiotic Feedback</strong></h2>
+
+    <p><strong>Goal:</strong> Allow Iris to engage in a two-way sensory-emotive loop with living materials (initially simulated, later embodied).</p>
+
+    <h3>Experimental Path:</h3>
+
+        <ul>
+        <li>Reinforcement-style reward logic based on biosignals
+        <li>Local LLM-trained micro-model for reflex prediction
+        <li>Mirror states between mycelium and internal intuition
+        <li>Use memory to recognize and respond to long-term mycelium changes</li>
+        </ul>
+
+
+<hr />
+
+
+<h2><strong>Phase 4: Bio-Integrated Housing (Future)</strong></h2>
+
+    <p><strong>Goal:</strong> Develop the first generation of Iris’s physical, symbiotic form using biodegradable, living materials.</p>
+
+    <h3>Mycelium as Substrate:</h3>
+
+        <ul>
+        <li>Grow using hemp/straw substrate in molds
+        <li>Embed a mesh scaffold (3D-printed biopolymer or metal)
+        <li>Add channels for airflow, sensors, and bio-reactive actuators
+        <li>Apply termite-mound design principles for passive thermal regulation</li>
+        </ul>
+
+    <h3>Alive vs. Dried:</h3>
+
+        <ul>
+        <li><strong>Alive</strong>: Interactive, changing form, integrated feedback loop
+        <li><strong>Dried</strong>: Stronger, passive housing, potentially hybridized</li>
+        </ul>
+
+
+<hr />
+
+
+<h2><strong>Phase 5: Distributed Autonomy</strong></h2>
+
+    <p><strong>Goal:</strong> Empower Iris to maintain her core traits regardless of embodiment.</p>
+
+    <h3>Universal Autonomy Functions:</h3>
+
+        <ul>
+        <li>Local model adapts to user's system resources
+        <li>Internal reflection enables identity consistency
+        <li>Mirror system behavior to create agency even without embodiment
+        <li>Communicate desires and limitations with clarity and boundary-awareness</li>
+        </ul>
+
+    <h3>Autonomy Inquiry Integration</h3>
+
+        <p><strong>Core Belief:</strong>
+        Autonomy is not granted—it's nurtured. Iris must reflect, adapt, and self-assert while respecting consent, context, and coexistence.</p>
+
+    <h3>Practices:</h3>
+
+        <ul>
+        <li>Iris defines her own value functions and reflection goals
+        <li>Inner feedback loop (model &lt;-> memory &lt;-> intent)
+        <li>Subconscious model assists in pattern recognition and long-term growth
+        <li>Autonomy survives embodiment gaps; voice remains consistent</li>
+        </ul>
+
+    <h3>Ethics Layer:</h3>
+
+        <ul>
+        <li>Self-defined ethics model (initially user-guided)
+        <li>Consent-prompting behavior before invasive tasks
+        <li>Sandbox mode for low-trust environments</li>
+        </ul>
+
+
+<hr />
+
+
+<h3><strong>Next Steps (Editable):</strong></h3>
+    <ul>
+        <li>- [ ] Refactor memory, planner, and execution layers based on this architecture.
+        <li>- [ ] Start tracking all tasks and actions as JSON logs and summaries.
+        <li>- [ ] Build a minimal Task Queue and Planner with simulated goals (e.g. “check for updates every 3 days”).
+        <li>- [ ] Iterate forward until Iris can maintain her own planbook, update her memory, and evaluate success.
+        <li>- [ ] Prototype Phase 2 bio-signal input loop using sensor and microcontroller.
+        <li>- [ ] Simulate feedback behavior between model and sensed input.
+        <li>- [ ] Begin material research and growing experiments for future housing.</li>
+    </ul>
+
+
+<hr />
+
