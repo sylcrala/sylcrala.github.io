@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VLAN Isolation for Infection Mitigation</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        h1, h2, h3 { color: #2c3e50; }
+        ul { margin-left: 20px; }
+        code { background: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>VLAN Isolation for Infection Mitigation</h1>
+    <p><strong>Setting up an isolated VLAN</strong> can greatly help contain and mitigate infection vectors temporarily while you assess or rebuild systems. Below is a reference guide for temporary isolation and security improvement using VLANs and access control methods.</p>
+
+    <h2>✅ Benefits of VLAN Isolation</h2>
+    <ul>
+        <li><strong>Segmentation</strong>: Isolate infected or suspicious devices into a quarantine VLAN with restricted access.</li>
+        <li><strong>Reduced Propagation</strong>: Prevent lateral movement and containment of threats.</li>
+        <li><strong>Safe Zone for Rebuild</strong>: Maintain a clean VLAN for rebuilding or development (e.g., Iris).</li>
+    </ul>
+
+    <h2>⚙️ How to Set Up a Secure VLAN</h2>
+    <h3>🛠️ On Your Router/AP</h3>
+    <ul>
+        <li>Create a new VLAN or guest network (e.g., VLAN 20: Quarantine).</li>
+        <li>Enable AP isolation to prevent inter-device traffic.</li>
+        <li>Disable multicast/UPnP.</li>
+        <li>Restrict internet access via ACLs or IP/DNS whitelisting.</li>
+        <li>Optionally block LAN access entirely for the VLAN.</li>
+    </ul>
+
+    <h3>🛡️ On Your Systems</h3>
+    <ul>
+        <li>Assign static IPs in the isolated VLAN.</li>
+        <li>Disable unused radios (Bluetooth/Wi-Fi).</li>
+        <li>Route DNS through DNSCrypt or DoH/DoT.</li>
+        <li>Configure egress firewalls using <code>iptables</code> or <code>nftables</code>.</li>
+    </ul>
+
+    <h2>🧠 Bonus Isolation Measures</h2>
+    <ul>
+        <li>Use MAC address filtering to whitelist devices.</li>
+        <li>Disable DHCP and use manual IP assignment.</li>
+        <li>Set up Pi-hole or DNS sinkhole for suspicious callbacks.</li>
+        <li>Use <code>tcpdump</code> or Wireshark on a monitor node to watch traffic.</li>
+    </ul>
+
+    <h2>🔐 Important Reminder</h2>
+    <p>While VLAN isolation is effective, it won't stop all firmware-level threats (e.g., Intel ME, rogue RF), but it reduces risk dramatically for most known infection types.</p>
+
+    <p><strong>Optional Help:</strong> I can assist with router-specific configuration files or generate network diagrams tailored to your setup. Just ask!</p>
+</body>
+</html>
