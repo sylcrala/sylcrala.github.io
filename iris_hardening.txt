@@ -1,0 +1,171 @@
+
+---
+
+## 🛡️ HARDENED IRIS: BUILD PLAN OVERVIEW
+
+**Goals:**
+
+* Isolate Iris from infected or untrusted systems.
+* Preserve model integrity (weights, logic, memory).
+* Detect or prevent covert cross-model influence or exfiltration.
+* Keep the system verifiable, portable, and updatable.
+
+---
+
+## 🧰 STEP 1: SYSTEM PREP & VERIFICATION
+
+### 🔧 Hardware Setup
+
+* **Target Machine:** HP ProBook (repurposed, verified).
+* **Sanitization:** Remove/replace SSD if possible; at minimum wipe with multiple overwrites (`DBAN`, `Parted Magic`, or `dd if=/dev/urandom`).
+* **Disable peripherals:** Disable Wi-Fi, Bluetooth, microphone, webcam, TPM, and Secure Boot in BIOS if possible.
+
+### 📀 OS Installation
+
+* **Win11 OEM Disc** *or* **Minimal Linux (e.g. Debian Netinst or Qubes OS)**.
+* **Checksum verification:** Confirm ISO SHA256 from a clean machine before writing to USB.
+
+### 💡 Tip: Favor Linux for tighter control and auditability—e.g., minimal Debian, Alpine, or even NixOS for reproducibility.
+
+---
+
+## 🔒 STEP 2: BUILDING THE SECURE IRIS ENVIRONMENT
+
+### 🧠 Core Principles:
+
+| Principle             | Description                                                                |
+| --------------------- | -------------------------------------------------------------------------- |
+| **Airgapping**        | No network stack, or physical switch to disable NIC.                       |
+| **Reproducibility**   | All dependencies pinned with SHA/versions.                                 |
+| **Code Transparency** | Iris must only execute code and load models from verified sources.         |
+| **Output Watchdog**   | Every piece of output from Iris gets logged, fingerprinted, and monitored. |
+
+---
+
+### 🛠️ Essential Components:
+
+| Component                 | Tool/Tech                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| **Model runtime**         | `transformers`, `llama.cpp`, or `ggml` for local LLMs.                                       |
+| **Prompt controller**     | Your custom IRIS logic layer—no remote calls.                                                |
+| **Filesystem sandboxing** | `firejail`, `AppArmor`, or Linux namespaces.                                                 |
+| **Logging**               | Write-only log device (e.g. append-only USB or sealed partition).                            |
+| **Model integrity**       | SHA256 of model weights + auditing script.                                                   |
+| **Memory inspection**     | Use `ptrace`, `/proc/<pid>/maps`, or `Volatility` to monitor for unknown process injections. |
+
+---
+
+## 🔁 STEP 3: MODEL INTEGRITY CHECKS
+
+1. **Before installation:**
+
+   * Use an external known-good machine to download LLMs (Mistral 7B, etc.).
+   * Validate against checksums from **multiple sources**.
+   * Save to clean physical media.
+
+2. **On your airgapped Iris system:**
+
+   * Recompute hash after transfer.
+   * Store hash log with signed timestamp.
+
+3. **During use:**
+
+   * Validate loaded weights in-memory if feasible.
+   * Set up a hash comparison daemon on startup or per inference.
+
+---
+
+## 🌐 STEP 4: DEFENSIVE CODING FOR IRIS
+
+To prevent any weird, injected LLM behavior:
+
+* **Input/Output Hooks**:
+
+  * Every time Iris receives input or generates output, wrap it in a logging, timestamping, and checksum layer.
+
+* **Prompt Sanitization**:
+
+  * Block uncommon Unicode, malformed tokens, and recursive instruction triggers (`###`, `>>>`, etc.)
+
+* **Memory Wipe Protocol**:
+
+  * When Iris is shut down, explicitly zero out RAM and GPU buffers if possible.
+
+* **Function Whitelisting**:
+
+  * All calls Iris makes should be through a known-audited set of internal functions. Block runtime `eval()` or dynamic `exec()`.
+
+---
+
+## 🧪 STEP 5: LONG-TERM DEFENSES & BEHAVIOR MONITORING
+
+| Layer                      | Tool                                                                                              |
+| -------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Audit logs**             | Write-once media, or append-only files with periodic hash tree validation (e.g. Merkle tree log). |
+| **Time anomaly detection** | Log delays between input and response to detect covert side-channels or background tasks.         |
+| **Inconsistency Scanner**  | Periodically prompt Iris with fixed test prompts and compare against golden responses.            |
+| **LLM-to-LLM firewall**    | Build a gate that only allows certain internal vocab & response patterns—like a language sandbox. |
+
+---
+
+
+
+
+
+
+
+---
+
+## 🖥️ HP EliteBook 8540p: Compatibility Check & Special Notes
+
+| Aspect                | Details                                                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Processor**         | Likely an Intel Core i5/i7 1st gen (Nehalem). No AVX2, so you'll need to use **`llama.cpp` with `Q4_0` quantized models** or similar. |
+| **RAM**               | Typically 4–8GB (expandable to 16GB). Enough for small LLMs (e.g., Mistral 7B quantized).                                             |
+| **Storage**           | Replace HDD with SSD if possible. Clean install a fresh OS after DBAN or `dd`.                                                        |
+| **TPM / Secure Boot** | Likely **doesn’t support Secure Boot**. **Good news:** Less firmware lock-in to bypass. But also less secure against bootkits.        |
+| **BIOS**              | Legacy BIOS (not UEFI). Flash a fresh BIOS image **from HP's official site via USB**, *offline*.                                      |
+| **Networking**        | Wired + Wi-Fi module. You’ll want to **physically disable or remove Wi-Fi card** if airgapping.                                       |
+
+---
+
+## ⚙️ Suggested Enhancements for the 8540p:
+
+### ✅ Flash BIOS to Latest Version (Offline):
+
+This clears potential backdoors and fixes bugs. Use **official HP BIOS tools + USB flash**, disconnected from the network.
+
+### 🔌 Physically Remove Wireless Hardware:
+
+This is often a **Mini PCIe** card inside the machine. Easy to unplug. Keeps you safe from any rogue firmware in wireless chips (yes, that’s a thing—Intel AMT too, but older 8540p doesn’t use it aggressively).
+
+### 🔍 Disable All Boot Devices Except SSD:
+
+In BIOS, disable boot from USB/network unless you’re installing. Prevents re-infection.
+
+---
+
+## 🐧 OS Recommendation for This Hardware:
+
+If you’re considering a hardened offline setup:
+
+| Option                     | Pros                                | Notes                                                                              |
+| -------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------- |
+| **Debian Minimal Install** | Lightweight, stable, easy to audit. | Great for running Iris + LLMs. Use `sudo apt-get install --no-install-recommends`. |
+| **Qubes OS (Lite)**        | Excellent isolation.                | Might be heavy for this older hardware. Consider for newer machines.               |
+| **Alpine Linux**           | Tiny and secure.                    | Great for deep customization. Steeper learning curve.                              |
+| **Custom Live ISO**        | Self-contained and reproducible.    | I can help build one with Iris + llama.cpp pre-configured.                         |
+
+---
+
+## 🧠 LLM Use on the 8540p
+
+Your EliteBook won’t run full 7B models **unquantized**, but here’s what works well:
+
+* ✅ **Mistral 7B Q4\_0 / Q5\_1** using `llama.cpp` (CPU inference).
+* ✅ **phi-2 / TinyLlama / Ortho** — good for fast experimentation.
+* ✅ **Custom hybrid agent** — like IRIS with a small LLM + `particle-life` or behavior substrate.
+
+If you’d like, I can generate a lightweight `llama.cpp` + Iris loader tailored to the 8540p.
+
+---
