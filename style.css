@@ -1,9 +1,14 @@
+@font-face {
+  font-family: jetbrains;
+  src:local("/assets/JetBrainsMono-Light.ttf")
+}
+
 body {
   margin: 0;
   padding: 0;
   background-color: #111;
   color: #eee;
-  font-family: 'Courier New', monospace;
+  font-family: 'jetbrains', monospace;
   line-height: 1.6;
 }
 
