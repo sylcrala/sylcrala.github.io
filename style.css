@@ -9,7 +9,7 @@ body {
 
 a {
   color: #f291ff;
-  text-decoration: none;
+  text-decoration: color;
 }
 
 a:hover {
