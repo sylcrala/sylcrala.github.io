@@ -94,3 +94,10 @@ footer {
 #just-line-break {
   white-space: pre-line;
 }
+
+demo {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border: solid pink
+}
