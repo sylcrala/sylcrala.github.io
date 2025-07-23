@@ -96,10 +96,12 @@ footer {
 }
 
 demo {
-  max-width: 100%;
+  display: block;
+  margin: 2rem auto;
+  max-width: 500px;
+  width: 100%;
   height: auto;
   justify-content: center;
-  display: flex;
   align-items: center;
-  border: solid pink
+  border: 2px solid pink
 }
