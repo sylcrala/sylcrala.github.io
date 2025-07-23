@@ -91,14 +91,10 @@ footer {
   margin-top: 2rem;
 }
 
-#just-line-break {
-  white-space: pre-line;
-}
-
-demo {
+.demo {
   display: block;
   margin: 2rem auto;
-  max-width: 500px;
+  max-width: 250px;
   width: 100%;
   height: auto;
   justify-content: center;
