@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="">
+  
+<head>
+  <meta charset="utf-8">
+  <meta name = "viewport" content = "width=device-width, initial-scale = 1.0" />
+  <title>About me :)</title>
+  <link rel = "stylesheet" href = "/style.css" />
+</head>
+
+<body>
+
+  <nav>
+    <a href = "/index.html">Home</a>
+    <a href = "/pages/about/index.html">About</a>
+    <a href = "/pages/projects/index.html">Projects</a>
+    <!-- <a href = "/pages/blog/index.html">Blog</a> -->
+    <!-- <a href = "/pages/notes/index.html">Notes</a> -->
+    <a href = "/pages/contact/index.html">Contact</a>
+  </nav>
+
+
+
+  <main> 
+
+    <section>
+      <h3><i>Need to get in touch? </i></h3>
+      <h4><i>Fill out this form and I'll get back to you as soon as possible!</i></h4>
+      <form
+        action="https://formspree.io/f/mdkzrwbn"
+        method="POST"
+      >
+        <div>
+          <label for = "name">
+            What's your name?<br />
+            <input type = "text" name = "name"> <br />
+          </label>
+        </div>
+        <div>
+            <label for = "phone">
+                What's your phone number?<br />
+                <input type = "tel" name = "phone"><br />
+            </label>
+        </div>
+        <div>
+          <label for = "email">
+            What's your email?<br />
+            <input type = "email" name = "email"> <br />
+          </label>
+        </div>
+        <div>
+          <label>
+            What would you like to talk about?<br />
+            <textarea name = "message"></textarea> <br />
+          </label>
+        </div>
+        <div>
+            <label>
+                How should I get back to you?<br />
+                <input type = "checkbox" name = "contact_preference" value = "email"> Email
+                <input type = "checkbox" name = "contact_preference" value = "phone"> Phone
+                <input type = "checkbox" name = "contact_preference" value = "either"> Either<br />
+            </label>
+        </div>
+
+        <button type="submit">Send</button>
+
+      </form>
+    </section>
+
+
+
+  </main>
+  
+  <footer id = "footer">
+    <p>In the name of equity and autonomy.</p>
+    <p>@ 2025 sylcrala</p>
+    <p><a href = "https://ko-fi.com/sylcrala" target = "_blank">Ko-fi</a> | <a href = "https://github.com/sylcrala" target = "_blank">GitHub</a> | <a href = "https://sylcrala.gumroad.com" target = "_blank">Gumroad</a></p>
+  </footer>
+
+</body>
+</html>
